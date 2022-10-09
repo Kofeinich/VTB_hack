@@ -4,16 +4,24 @@ import {ArrowButton} from "../../assets/svg/ArrowButton";
 import {EventCard} from "../EventCard/EventCard";
 import {ActivitySection} from "../../pages/MainPage/sections/ActivitySection/ActivitySection";
 import {NFTCards} from "../NFTCards/NFTCards";
+import {useEffect, useState} from "react";
+import {getProfile, getProfileById} from "../../api/api";
+import {useAuthContext} from "../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
-export const Profile = () => {
+export const Profile = ({ id = null }) => {
 
+    const [name, setName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [lvl, setLvl] = useState(1)
+    const [collection, setCollection] = useState([])
+
+    const navigate = useNavigate()
 
     const profile =  {
        "lastName" : "Mitr",
         "name" : "Egor",
     }
-
-
 
 
     const events = [
@@ -30,15 +38,33 @@ export const Profile = () => {
             rewards: ["+500 XP", "NFT-Сертификат"]
         },
     ]
+
+    const fetchData = async () => {
+        let user
+        if (id) {
+            user = await getProfileById(id)
+        } else {
+            user = await getProfile()
+        }
+        console.log(user)
+        setName(user.name)
+        setLastName(user.lastName)
+        setLvl(user.lvl)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [id])
+
+
     return (
         <section className={styles.profile}>
             <div className={styles.profileWrapper}>
                 <div className={styles.picture}/>
-
                 <div className={styles.bar}>
                     <div className={styles.barFlex}>
-                        <div className={styles.lvl}>4</div>
-                        <p className={styles.par}>{profile.name}{profile.lastName}</p>
+                        <div className={styles.lvl}>{lvl}</div>
+                        <p className={styles.par}>{name} {lastName}</p>
                         <div className={styles.random}>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="32" height="32" rx="9" fill="#0C0F12" fill-opacity="0.8"/>
@@ -46,7 +72,7 @@ export const Profile = () => {
                             </svg>
                         </div>
                     </div>
-                    <button className={styles.button}>
+                    <button className={styles.button} onClick={() => {navigate('/transfer')}}>
                         <ArrowButton/>
                         <p className={styles.par}>Перевод</p>
                     </button>

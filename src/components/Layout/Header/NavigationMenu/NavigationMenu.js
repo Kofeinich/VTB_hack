@@ -41,8 +41,10 @@ export const NavigationMenu = ({
                     <Link to="/transfer" className={styles.navigationLinksItem}>
                         Переводы
                     </Link>
+                    <Link to="/achievements" className={styles.navigationLinksItem}>
+                        Достижения
+                    </Link>
                 </div>
-                <Box top={'0px'} w={'100%'} h={'89px'} bg={'#333941'} borderRadius={'8px'}/>
             </div>
         </>
     );
