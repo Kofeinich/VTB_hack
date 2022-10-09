@@ -14,10 +14,12 @@ export const useRoutes = () => {
 			<Route path="/" element={<MainPage />}/>
 			<Route path="/sign-up" element={<SignUpPage />}/>
 			<Route path="/sign-in" element={<SignInPage />}/>
-			<Route path="/profile" element={<ProfilePage/>}/>
+			<Route path="/profile" element={<ProfilePage/>}>
+				<Route path=":id" element={<ProfilePage/>}/>
+			</Route>
 			<Route path="/achievements" element={<AchievementsPage/>}/>
 			<Route path="/transfer" element={<TransferPage />}/>
-			<Route path="/nft-details" element={<NftDetailsPage />}/>
+			<Route path="/nft-details/:id" element={<NftDetailsPage />}/>
 			<Route path="/choose" element={<ChoosePage />}/>
 		</Routes>
 	)

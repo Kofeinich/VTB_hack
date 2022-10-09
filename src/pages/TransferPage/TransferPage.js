@@ -1,22 +1,27 @@
 import styles from './TransferPage.module.css'
 import {Layout} from "../../components/Layout/Layout";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import avatar from '../../assets/svg/avatarStub.svg'
+import {getProfile, transferDrTo} from "../../api/api";
+import toast from "react-hot-toast";
+import {useAuthContext} from "../../context/AuthContext";
 
 export const TransferPage = () => {
+
+	const {update} = useAuthContext()
 
 	const [userSearchTerm, setUserSearchTerm] = useState("");
 	const [userSearchResult, setUserSearchResult] = useState([
 		{
-			name: "Дон Ягон",
-			id: 123
+			name: "Юрий Бабалин",
+			id: 1
 		},
 		{
-			name: "Лена Головач",
+			name: "Иван Петров",
 			id: 456
 		},
 		{
-			name: "Ясос Биба",
+			name: "Сергей Егоров",
 			id: 789
 		},
 	]);
@@ -24,15 +29,15 @@ export const TransferPage = () => {
 	const [NFTSearchTerm, setNFTSearchTerm] = useState("");
 	const [NFTSearchResult, setNFTSearchResult] = useState([
 		{
-			name: "Сертификат #123",
+			name: "Сертификат #0001",
 			id: 123
 		},
 		{
-			name: "Сертификат #456",
+			name: "Сертификат #0002",
 			id: 456
 		},
 		{
-			name: "Сертификат #789",
+			name: "Сертификат #0003",
 			id: 789
 		},
 	]);
@@ -82,6 +87,23 @@ export const TransferPage = () => {
 	const amountInputHandler = (e) => {
 		setAmount(e.target.value)
 	}
+
+	const transfer = () => {
+		transferDrTo(1, amount).then((res) => {
+			toast.success("Перевод выполняется")
+			update()
+		})
+	}
+
+	const getBalance = async () => {
+		const res = await getProfile()
+		setUserBalance(res.balance.coinsAmount)
+	}
+
+	useEffect(() => {
+		getBalance()
+	}, [])
+
 
 	return (
 		<Layout>
@@ -173,8 +195,8 @@ export const TransferPage = () => {
 						}
 					</div>
 				</div>
-				<button className="btn_filled">Перевести</button>
-				{ activeTab == "DR" && <button className="btn_outlined">Перевести</button> }
+				<button className="btn_filled" onClick={transfer}>Перевести</button>
+				{ activeTab == "DR" && <button className="btn_outlined">Ежемесячный перевод</button> }
 			</div>
 		</Layout>
 	)

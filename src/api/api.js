@@ -23,6 +23,24 @@ export const signOut = async () => {
 
 export const getProfile = async () => {
 	const response = await request('/profile')
-	console.log('response', response)
 	return response
+}
+
+export const getProfileById = async (id) => {
+	const response = await request(`/profiles/users/${id}`)
+	return response
+}
+
+export const getNftById = async (id) => {
+	const response = await request(`/ntfs/${id}`)
+	return response
+}
+
+export const transferDrTo = async (id, amount) => {
+	request(`/transfer/users/${id}`, 'POST', {
+		"type": "DR",
+		"amount": amount
+	}).then(() => {
+		return 'Перевод выполняется'
+	})
 }

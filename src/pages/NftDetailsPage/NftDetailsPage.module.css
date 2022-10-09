@@ -95,6 +95,7 @@
 .nft {
     width: 62%;
     margin-left: auto;
+    border-radius: 17px;
 }
 
 @media (max-width: 800px) {

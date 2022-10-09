@@ -32,6 +32,8 @@
     border-radius: 9px;
     padding: 12px;
     width: 230px;
+    min-height: 220px;
+    cursor: pointer;
 }
 
 .communitiesItemTitle {
